@@ -34,6 +34,10 @@ def setup_logging():
                 "werkzeug": {
                     "level": console_level,
                     "propagate": False
+                },
+                "py.warnings": {
+                    "level": "ERROR",
+                    "propagate": False
                 }
             }
         }
