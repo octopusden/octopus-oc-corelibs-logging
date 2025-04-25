@@ -5,7 +5,6 @@ __version = "1.0.0"
 install_requires = [
     "requests",
     "packaging",
-    "logging"
 ]
 tests_require = []
 
