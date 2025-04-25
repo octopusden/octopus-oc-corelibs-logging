@@ -16,7 +16,6 @@ spec = {
     "description": "Custom Development python API logging libraries",
     "long_description": "Custom Development python API logging libraries",
     "long_description_content_type": "text/plain",
-    "packages": ["oc_logging"],
     "install_requires": install_requires,
     "tests_require": tests_require,
     "python_requires": ">=3.6",
