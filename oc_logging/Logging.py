@@ -1,8 +1,12 @@
 import os
 from logging.config import dictConfig
+import urllib3
+
 
 
 def setup_logging():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     console_level = os.getenv("LOG_LEVEL")
     if not console_level:
         console_level = "DEBUG"
