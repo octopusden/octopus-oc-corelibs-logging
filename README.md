@@ -1,20 +1,20 @@
-# octopus-corelibs-logging
+# octopus-oc-corelibs-logging
 
-Basic classes for logging setting.
+A flexible logging library built on top of [structlog](https://www.structlog.org/), providing opinionated configuration, JSON/text formatting, and request context binding for Flask applications.
 
-This class only contain one file called Logging.py and one function called setup_logging
+---
 
-### setup_logging
-Used to generalize the logging setting. Before use any logging in the application, this function need 
-to be executed first.
+## Features
 
-### Logging style
-Here is the format that is used for logging: <br>
-[timestamp] [severity] message
+- Simple setup for **JSON** or **Text** logging formats
+- Built-in **timestamp**, **log level**, and **context support**
+- **Flask integration** with automatic `X-Request-ID` binding
+- Extensible with custom structlog processors
+- Compatible with Python’s standard `logging` library
 
-and here is the example:<br>
-[2025-04-25 06:24:01,817] [INFO] Test message
+---
 
-### Log level
-Log level for the application need to be set up in the env variable called LOG_LEVEL. The LOG_LEVEL must be DEBUG, INFO, WARNING, 
-ERROR, CRITICAL. The default value is DEBUG.
+## Installation
+
+```bash
+pip install octopus-oc-corelibs-logging
