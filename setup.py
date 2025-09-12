@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-__version = "1.1.2"
+__version = "1.1.3"
 install_requires = [
     "requests",
     "packaging",
