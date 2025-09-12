@@ -161,7 +161,7 @@ class StructlogWrapper:
     def quick_setup(
             cls,
             format: str = "json",
-            level: str = "info",
+            level: str | int = "info",
             **kwargs
     ):
         """
@@ -169,7 +169,7 @@ class StructlogWrapper:
 
         Args:
             format: "json", "text", or "console"
-            level: "debug", "info", "warning", "error", "critical"
+            level: "debug", "info", "warning", "error", "critical" or integer (10=debug, 20=info, 30=warning, 40=error, 50=critical)
             **kwargs: Additional configuration options
 
         Returns:
@@ -190,13 +190,29 @@ class StructlogWrapper:
             "critical": LogLevel.CRITICAL
         }
 
+        # Convert integer level to enum
+        int_level_map = {
+            10: LogLevel.DEBUG,
+            20: LogLevel.INFO,
+            30: LogLevel.WARNING,
+            40: LogLevel.ERROR,
+            50: LogLevel.CRITICAL
+        }
+
         format_enum = format_map.get(format.lower())
         if not format_enum:
             raise ValueError(f"Invalid format: {format}. Use: {list(format_map.keys())}")
 
-        level_enum = level_map.get(level.lower())
-        if not level_enum:
-            raise ValueError(f"Invalid level: {level}. Use: {list(level_map.keys())}")
+        # Handle both string and integer levels
+        if isinstance(level, int):
+            level_enum = int_level_map.get(level)
+            if level_enum is None:
+                raise ValueError(f"Invalid level: {level}. Use: {list(int_level_map.keys())}")
+        else:
+            level_enum = level_map.get(level.lower())
+            if not level_enum:
+                raise ValueError(
+                    f"Invalid level: {level}. Use: {list(level_map.keys())} or integers {list(int_level_map.keys())}")
 
         wrapper = cls(format=format_enum, log_level=level_enum, **kwargs)
         wrapper.configure()
