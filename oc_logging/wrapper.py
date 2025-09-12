@@ -160,8 +160,8 @@ class StructlogWrapper:
     @classmethod
     def quick_setup(
             cls,
-            format: str = "json",
-            level: str | int = "info",
+            format = "json",
+            level = "info",
             **kwargs
     ):
         """
