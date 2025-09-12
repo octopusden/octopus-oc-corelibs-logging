@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-__version = "1.0.2"
+__version = "1.1.2"
 install_requires = [
     "requests",
     "packaging",
+    "structlog"
 ]
-tests_require = []
 
 spec = {
     "name": "oc-logging",
@@ -16,7 +16,6 @@ spec = {
     "long_description": "Custom Development python API logging libraries",
     "long_description_content_type": "text/plain",
     "install_requires": install_requires,
-    "tests_require": tests_require,
     "python_requires": ">=3.6",
 }
 
