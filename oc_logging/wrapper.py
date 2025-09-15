@@ -9,8 +9,6 @@ import structlog
 from typing import Optional, List
 from enum import Enum
 
-from structlog.processors import EventRenamer
-
 class LogFormat(Enum):
     JSON = "json"
     TEXT = "text"
@@ -21,6 +19,15 @@ class LogLevel(Enum):
     WARNING = logging.WARNING
     ERROR = logging.ERROR
     CRITICAL = logging.CRITICAL
+
+def rename_event_to_message_processor(_, __, event_dict):
+    """
+    Processor that renames the 'event' key to 'message',
+    mimicking structlog.processors.EventRenamer("message").
+    """
+    if "event" in event_dict:
+        event_dict["message"] = event_dict.pop("event")
+    return event_dict
 
 class StructlogWrapper:
     """
@@ -81,7 +88,7 @@ class StructlogWrapper:
         processors = [
             structlog.contextvars.merge_contextvars,
             structlog.processors.add_log_level,
-            EventRenamer("message"),
+            rename_event_to_message_processor,
             structlog.processors.TimeStamper(
                 fmt=self.timestamp_format,
                 utc=self.utc
