@@ -148,13 +148,17 @@ class StructlogWrapper:
 
     def configure(self):
         """Configure structlog with the specified settings"""
+        # Since force=true only available for python3.8+, here is workaround to remove all handler first for fresh log settings
+        root = logging.getLogger()
+        if root.handlers:
+            for handler in root.handlers[:]:
+                root.removeHandler(handler)
 
         # Configure standard library logging since structlog is a logging wrapper
         logging.basicConfig(
             level=self.log_level.value,
             format="%(message)s",  # structlog handles formatting
-            handlers=[logging.StreamHandler()],
-            force = True
+            handlers=[logging.StreamHandler()]
         )
 
         # Configure structlog
