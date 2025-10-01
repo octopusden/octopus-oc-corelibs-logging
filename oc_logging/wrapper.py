@@ -153,7 +153,8 @@ class StructlogWrapper:
         logging.basicConfig(
             level=self.log_level.value,
             format="%(message)s",  # structlog handles formatting
-            handlers=[logging.StreamHandler()]
+            handlers=[logging.StreamHandler()],
+            force = True
         )
 
         # Configure structlog
