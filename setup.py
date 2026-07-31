@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-__version = "1.1.7"
+__version = "1.2.1"
 install_requires = [
     "requests",
     "packaging",
@@ -16,7 +16,7 @@ spec = {
     "long_description": "Custom Development python API logging libraries",
     "long_description_content_type": "text/plain",
     "install_requires": install_requires,
-    "python_requires": ">=3.6",
+    "python_requires": ">=3.8",
 }
 
 setup(**spec)
