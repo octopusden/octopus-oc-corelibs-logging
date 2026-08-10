@@ -21,6 +21,16 @@ def _raise_zero_division():
         log.error("failed", exc_info=True, key="value")
 
 
+def _log_exception_object():
+    """Log an exception object as the event, the way log.exception(err) is often used"""
+    log = structlog.get_logger()
+
+    try:
+        raise ValueError("something went wrong")
+    except ValueError as err:
+        log.exception(err)
+
+
 class LoggingTestCase(unittest.TestCase):
     """
     Base case restoring the global state touched by configure():
@@ -86,6 +96,15 @@ class TestJsonFormat(LoggingTestCase):
         record = self.capture_json(_raise_zero_division)
 
         self.assertEqual("value", record["key"])
+
+    def test_exception_object_as_event_is_serialised(self):
+        # log.exception(err) passes the exception object as the event, which must
+        # not break the "message" + traceback merge (regression: TypeError in join)
+        record = self.capture_json(_log_exception_object)
+
+        self.assertEqual("error", record["level"])
+        self.assertTrue(record["message"].startswith("something went wrong\nTraceback"))
+        self.assertIn("ValueError: something went wrong", record["message"])
 
     def test_record_without_exception_is_untouched(self):
         record = self.capture_json(lambda: structlog.get_logger().info("plain", key="value"))

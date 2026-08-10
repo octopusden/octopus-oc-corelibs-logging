@@ -42,6 +42,10 @@ def merge_exception_into_message_processor(_, __, event_dict):
         return event_dict
 
     message = event_dict.get("message", "")
+    # The event passed to the logger may be a non-str (e.g. log.exception(err)
+    # with an exception object), so coerce before joining with the traceback.
+    if not isinstance(message, str):
+        message = str(message)
     event_dict["message"] = "\n".join([message, exception]) if message else exception
 
     return event_dict
@@ -138,6 +142,9 @@ class StructlogWrapper:
             level = event_dict.pop("level", "").upper()
             # "event" has already been renamed to "message" by rename_event_to_message_processor
             event = event_dict.pop("message", "")
+            # The event may be a non-str (e.g. log.exception(err) with an exception object)
+            if not isinstance(event, str):
+                event = str(event)
             # Traceback is multiline, so it is printed after the key=value tail
             exception = event_dict.pop("exception", None)
 
